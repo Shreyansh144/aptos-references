@@ -1,5 +1,5 @@
 /// Example module for freezing token transfer 
-module pancake_cake_token::fa_coin {
+module FACoin::fa_coin {
     use aptos_framework::fungible_asset::{Self, MintRef, TransferRef, BurnRef, Metadata, FungibleAsset};
     use aptos_framework::object::{Self, Object};
     use aptos_framework::primary_fungible_store;

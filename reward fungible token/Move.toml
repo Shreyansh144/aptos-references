@@ -1,5 +1,5 @@
 [package]
-name = "swap_account"
+name = "fa_coin"
 version = "0.0.1"
 
 # [dependencies]
@@ -13,6 +13,5 @@ local = './aptos-core/aptos-move/framework/aptos-framework/'
 local = './aptos-core/aptos-move/framework/aptos-stdlib/'
 
 [addresses]
-swap_account = "6b872ac0b07f8646a1f3a1d262028df3e9e3e7a6e1fdd811a8a9f2c3a0739d8d"
-# cake_token_zero_account = "0000000000000000000000000000000000000000000000000000000000000000"
-# swap_account = "0000000000000000000000000000000000000000000000000000000000000010"
+FACoin = "0xa880d00108f7bcf7f6ca0f525ebc216e01c6c27776170c11663dd794e0fbf449"
+swap_account = "0xa880d00108f7bcf7f6ca0f525ebc216e01c6c27776170c11663dd794e0fbf449"

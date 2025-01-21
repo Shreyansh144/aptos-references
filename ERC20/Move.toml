@@ -7,4 +7,4 @@ AptosFramework = { git = "https://github.com/aptos-labs/aptos-core.git", subdir 
 AptosStdlib = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-stdlib/", rev = "2a458b5ffaaf6a9de6fac679a53912c0be9fe217" }
 
 [addresses]
-FACoin = "0xb6e6c1a7017af19bf823badb90e3316718a79b235e300318b3562e78bef469bb"
+pancake_cake_token = "0xb6e6c1a7017af19bf823badb90e3316718a79b235e300318b3562e78bef469bb"
