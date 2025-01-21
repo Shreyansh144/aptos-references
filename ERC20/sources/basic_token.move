@@ -1,137 +1,140 @@
-/// This module defines a minimal and generic Coin and Balance.
-module named_addr::basic_coin {
+/// Example module for freezing token transfer 
+module FACoin::fa_coin {
+    use aptos_framework::fungible_asset::{Self, MintRef, TransferRef, BurnRef, Metadata, FungibleAsset};
+    use aptos_framework::object::{Self, Object};
+    use aptos_framework::primary_fungible_store;
+    use std::error;
     use std::signer;
+    use std::string::{Self, utf8};
+    use std::option;
 
-    /// Error codes
-    const ENOT_MODULE_OWNER: u64 = 0;
-    const EINSUFFICIENT_BALANCE: u64 = 1;
-    const EALREADY_HAS_BALANCE: u64 = 2;
-    const EALREADY_INITIALIZED: u64 = 3;
-    const EEQUAL_ADDR: u64 = 4;
+    /// Only fungible asset metadata owner can make changes.
+    const ENOT_OWNER: u64 = 1;
 
-    struct Coin<phantom CoinType> has store {
-        value: u64
+    const ASSET_SYMBOL: vector<u8> = b"FA";
+
+    #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
+    /// Hold refs to control the minting, transfer and burning of fungible assets.
+    struct ManagedFungibleAsset has key {
+        mint_ref: MintRef,
+        transfer_ref: TransferRef,
+        burn_ref: BurnRef,
     }
 
-    struct Balance<phantom CoinType> has key {
-        coin: Coin<CoinType>
+    #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
+
+    /// Initialize metadata object and store the refs.
+    // :!:>initialize
+    fun init_module(admin: &signer) {
+        let constructor_ref = &object::create_named_object(admin, ASSET_SYMBOL);
+        primary_fungible_store::create_primary_store_enabled_fungible_asset(
+            constructor_ref,
+            option::none(),
+            utf8(b"FA Coin"), /* name */
+            utf8(ASSET_SYMBOL), /* symbol */
+            8, /* decimals */
+            utf8(b"http://example.com/favicon.ico"), /* icon */
+            utf8(b"http://example.com"), /* project */
+        );
+
+        // Create mint/burn/transfer refs to allow creator to manage the fungible asset.
+        let mint_ref = fungible_asset::generate_mint_ref(constructor_ref);
+        let burn_ref = fungible_asset::generate_burn_ref(constructor_ref);
+        let transfer_ref = fungible_asset::generate_transfer_ref(constructor_ref);
+        let metadata_object_signer = object::generate_signer(constructor_ref);
+        move_to(
+            &metadata_object_signer,
+            ManagedFungibleAsset { mint_ref, transfer_ref, burn_ref }
+        ); // <:!:initialize
+
+
     }
 
-    public fun publish_balance<CoinType>(account: &signer) {
-        let empty_coin = Coin<CoinType> { value: 0 };
-        assert!(!exists<Balance<CoinType>>(signer::address_of(account)), EALREADY_HAS_BALANCE);
-        move_to(account, Balance<CoinType> { coin: empty_coin });
+    #[view]
+    /// Return the address of the managed fungible asset that's created when this module is deployed.
+    public fun get_metadata(): Object<Metadata> {
+        let asset_address = object::create_object_address(&@FACoin, ASSET_SYMBOL);
+        object::address_to_object<Metadata>(asset_address)
     }
 
-    spec publish_balance {
-        include Schema_publish<CoinType> {addr: signer::address_of(account), amount: 0};
+    // :!:>mint
+    /// Mint as the owner of metadata object.
+    public entry fun mint(admin: &signer, to: address, amount: u64) acquires ManagedFungibleAsset {
+        let asset = get_metadata();
+        let managed_fungible_asset = authorized_borrow_refs(admin, asset);
+        let to_wallet = primary_fungible_store::ensure_primary_store_exists(to, asset);
+        let fa = fungible_asset::mint(&managed_fungible_asset.mint_ref, amount);
+        fungible_asset::deposit_with_ref(&managed_fungible_asset.transfer_ref, to_wallet, fa);
+    }// <:!:mint
+
+    /// Burn fungible assets as the owner of metadata object.
+    public entry fun burn(admin: &signer, from: address, amount: u64) acquires ManagedFungibleAsset {
+        let asset = get_metadata();
+        let burn_ref = &authorized_borrow_refs(admin, asset).burn_ref;
+        let from_wallet = primary_fungible_store::primary_store(from, asset);
+        fungible_asset::burn_from(burn_ref, from_wallet, amount);
     }
 
-    spec schema Schema_publish<CoinType> {
-        addr: address;
-        amount: u64;
-
-        aborts_if exists<Balance<CoinType>>(addr);
-
-        ensures exists<Balance<CoinType>>(addr);
-        let post balance_post = global<Balance<CoinType>>(addr).coin.value;
-
-        ensures balance_post == amount;
+    /// Freeze an account so it cannot transfer or receive fungible assets.
+    public entry fun freeze_account(admin: &signer, account: address) acquires ManagedFungibleAsset {
+        let asset = get_metadata();
+        let transfer_ref = &authorized_borrow_refs(admin, asset).transfer_ref;
+        let wallet = primary_fungible_store::ensure_primary_store_exists(account, asset);
+        fungible_asset::set_frozen_flag(transfer_ref, wallet, true);
     }
 
-    /// Mint `amount` tokens to `mint_addr`. This method requires a witness with `CoinType` so that the
-    /// module that owns `CoinType` can decide the minting policy.
-    public fun mint<CoinType: drop>(mint_addr: address, amount: u64, _witness: CoinType) acquires Balance {
-        // Deposit `total_value` amount of tokens to mint_addr's balance
-        deposit(mint_addr, Coin<CoinType> { value: amount });
+    /// Unfreeze an account so it can transfer or receive fungible assets.
+    public entry fun unfreeze_account(admin: &signer, account: address) acquires ManagedFungibleAsset {
+        let asset = get_metadata();
+        let transfer_ref = &authorized_borrow_refs(admin, asset).transfer_ref;
+        let wallet = primary_fungible_store::ensure_primary_store_exists(account, asset);
+        fungible_asset::set_frozen_flag(transfer_ref, wallet, false);
     }
 
-    spec mint {
-        include DepositSchema<CoinType> {addr: mint_addr, amount};
+    /// Borrow the immutable reference of the refs of `metadata`.
+    /// This validates that the signer is the metadata object's owner.
+    inline fun authorized_borrow_refs(
+        owner: &signer,
+        asset: Object<Metadata>,
+    ): &ManagedFungibleAsset acquires ManagedFungibleAsset {
+        assert!(object::is_owner(asset, signer::address_of(owner)), error::permission_denied(ENOT_OWNER));
+        borrow_global<ManagedFungibleAsset>(object::object_address(&asset))
     }
 
-    public fun balance_of<CoinType>(owner: address): u64 acquires Balance {
-        borrow_global<Balance<CoinType>>(owner).coin.value
+    #[test(creator = @FACoin, aaron = @0x123)]
+    #[expected_failure]
+    fun test_frozen_transfer(
+        creator: &signer, aaron: &signer
+    ) acquires ManagedFungibleAsset {
+        init_module(creator);
+        let creator_address = signer::address_of(creator);
+        let bob_address = @0x456;
+        let aaron_address = signer::address_of(aaron);
+        let asset = get_metadata();
+
+        mint(creator, aaron_address, 100);
+        let asset = get_metadata();
+        assert!(primary_fungible_store::balance(aaron_address, asset) == 100, 4);
+
+        primary_fungible_store::transfer(aaron, asset, bob_address, 10);
+        assert!(primary_fungible_store::balance(bob_address, asset) == 10, 6);
+        assert!(primary_fungible_store::balance(aaron_address, asset) == 90, 6);
+
+
+        freeze_account(creator, aaron_address);
+        
+        assert!(primary_fungible_store::is_frozen(aaron_address, asset), 5);
+        primary_fungible_store::transfer(aaron, asset, bob_address, 10);
     }
 
-    spec balance_of {
-        pragma aborts_if_is_strict;
-        aborts_if !exists<Balance<CoinType>>(owner);
-    }
-
-    /// Transfers `amount` of tokens from `from` to `to`. This method requires a witness with `CoinType` so that the
-    /// module that owns `CoinType` can decide the transferring policy.
-    public fun transfer<CoinType: drop>(from: &signer, to: address, amount: u64, _witness: CoinType) acquires Balance {
-        let from_addr = signer::address_of(from);
-        assert!(from_addr != to, EEQUAL_ADDR);
-        let check = withdraw<CoinType>(from_addr, amount);
-        deposit<CoinType>(to, check);
-    }
-
-    spec transfer {
-        let addr_from = signer::address_of(from);
-
-        let balance_from = global<Balance<CoinType>>(addr_from).coin.value;
-        let balance_to = global<Balance<CoinType>>(to).coin.value;
-        let post balance_from_post = global<Balance<CoinType>>(addr_from).coin.value;
-        let post balance_to_post = global<Balance<CoinType>>(to).coin.value;
-
-        aborts_if !exists<Balance<CoinType>>(addr_from);
-        aborts_if !exists<Balance<CoinType>>(to);
-        aborts_if balance_from < amount;
-        aborts_if balance_to + amount > MAX_U64;
-        aborts_if addr_from == to;
-
-        ensures balance_from_post == balance_from - amount;
-        ensures balance_to_post == balance_to + amount;
-    }
-
-    fun withdraw<CoinType>(addr: address, amount: u64) : Coin<CoinType> acquires Balance {
-        let balance = balance_of<CoinType>(addr);
-        assert!(balance >= amount, EINSUFFICIENT_BALANCE);
-        let balance_ref = &mut borrow_global_mut<Balance<CoinType>>(addr).coin.value;
-        *balance_ref = balance - amount;
-        Coin<CoinType> { value: amount }
-    }
-
-    spec withdraw {
-        let balance = global<Balance<CoinType>>(addr).coin.value;
-
-        aborts_if !exists<Balance<CoinType>>(addr);
-        aborts_if balance < amount;
-
-        let post balance_post = global<Balance<CoinType>>(addr).coin.value;
-        ensures result == Coin<CoinType> { value: amount };
-        ensures balance_post == balance - amount;
-    }
-
-    fun deposit<CoinType>(addr: address, check: Coin<CoinType>) acquires Balance{
-        let balance = balance_of<CoinType>(addr);
-        let balance_ref = &mut borrow_global_mut<Balance<CoinType>>(addr).coin.value;
-        let Coin { value } = check;
-        *balance_ref = balance + value;
-    }
-
-    spec deposit {
-        let balance = global<Balance<CoinType>>(addr).coin.value;
-        let check_value = check.value;
-
-        aborts_if !exists<Balance<CoinType>>(addr);
-        aborts_if balance + check_value > MAX_U64;
-
-        let post balance_post = global<Balance<CoinType>>(addr).coin.value;
-        ensures balance_post == balance + check_value;
-    }
-
-    spec schema DepositSchema<CoinType> {
-        addr: address;
-        amount: u64;
-        let balance = global<Balance<CoinType>>(addr).coin.value;
-
-        aborts_if !exists<Balance<CoinType>>(addr);
-        aborts_if balance + amount > MAX_U64;
-
-        let post balance_post = global<Balance<CoinType>>(addr).coin.value;
-        ensures balance_post == balance + amount;
+    #[test(creator = @FACoin, aaron = @0xface)]
+    #[expected_failure(abort_code = 0x50001, location = Self)]
+    fun test_permission_denied(
+        creator: &signer,
+        aaron: &signer
+    ) acquires ManagedFungibleAsset {
+        init_module(creator);
+        let creator_address = signer::address_of(creator);
+        mint(aaron, creator_address, 100);
     }
 }

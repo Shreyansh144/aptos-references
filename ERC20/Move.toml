@@ -1,11 +1,10 @@
 [package]
-name = "basic_coin"
-version = "0.0.0"
+name = "fa_coin"
+version = "0.0.1"
+
+[dependencies]
+AptosFramework = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-framework/", rev = "2a458b5ffaaf6a9de6fac679a53912c0be9fe217" }
+AptosStdlib = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-stdlib/", rev = "2a458b5ffaaf6a9de6fac679a53912c0be9fe217" }
 
 [addresses]
-named_addr = "0xDEADBEEF"
-
-[dependencies.AptosStdlib]
-git = 'https://github.com/aptos-labs/aptos-framework.git'
-rev = 'main'
-subdir = 'aptos-stdlib'
+FACoin = "0xb6e6c1a7017af19bf823badb90e3316718a79b235e300318b3562e78bef469bb"
