@@ -6,5 +6,11 @@ version = "0.0.1"
 AptosFramework = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-framework/", rev = "2a458b5ffaaf6a9de6fac679a53912c0be9fe217" }
 AptosStdlib = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-stdlib/", rev = "2a458b5ffaaf6a9de6fac679a53912c0be9fe217" }
 
+# [dependencies.AptosFramework]
+# local = './aptos-core/aptos-move/framework/aptos-framework/'
+
+# [dependencies.AptosStdlib]
+# local = './aptos-core/aptos-move/framework/aptos-stdlib/'
+
 [addresses]
 pancake_cake_token = "0xb6e6c1a7017af19bf823badb90e3316718a79b235e300318b3562e78bef469bb"

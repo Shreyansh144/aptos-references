@@ -11,7 +11,7 @@ use swap_account::Math;
 
 // Constant for minimum liquidity required in LP tokens
 const MINIMUM_LIQUIDITY: u64 = 1000;
-
+    
 // Define a phantom struct LP with generic types X and Y to represent LP tokens for token pair X-Y
 struct LP<phantom X, phantom Y> {}
 

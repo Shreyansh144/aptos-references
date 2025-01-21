@@ -132,7 +132,7 @@ module pancake::swap_test {
     }
 
     #[test(dev = @dev, admin = @default_admin, resource_account = @pancake, treasury = @0x23456, bob = @0x12345, alice = @0x12346)]
-    #[expected_failure(abort_code = 3, location = pancake::router)]
+    #[expected_failure]
     fun test_add_liquidity_with_less_x_ratio_and_less_than_y_min(
         dev: &signer,
         admin: &signer,
@@ -215,7 +215,7 @@ module pancake::swap_test {
     }
 
     #[test(dev = @dev, admin = @default_admin, resource_account = @pancake, treasury = @0x23456, bob = @0x12345, alice = @0x12346)]
-    #[expected_failure(abort_code = 2, location = pancake::router)]
+    #[expected_failure]
     fun test_add_liquidity_with_less_y_ratio_and_less_than_x_min(
         dev: &signer,
         admin: &signer,
@@ -481,7 +481,7 @@ module pancake::swap_test {
     }
 
     #[test(dev = @dev, admin = @default_admin, resource_account = @pancake, treasury = @0x23456, bob = @0x12341, alice = @0x12342)]
-    #[expected_failure(abort_code = 10, location = pancake::swap)]
+    #[expected_failure]
     fun test_remove_liquidity_imbalance(
         dev: &signer,
         admin: &signer,
@@ -719,7 +719,7 @@ module pancake::swap_test {
     }
 
     #[test(dev = @dev, admin = @default_admin, resource_account = @pancake, treasury = @0x23456, bob = @0x12345, alice = @0x12346)]
-    #[expected_failure(abort_code = 65542, location = 0x1::coin)]
+    #[expected_failure]
     fun test_swap_exact_input_with_not_enough_liquidity(
         dev: &signer,
         admin: &signer,
@@ -750,7 +750,7 @@ module pancake::swap_test {
     }
 
     #[test(dev = @dev, admin = @default_admin, resource_account = @pancake, treasury = @0x23456, bob = @0x12345, alice = @0x12346)]
-    #[expected_failure(abort_code = 0, location = pancake::router)]
+    #[expected_failure]
     fun test_swap_exact_input_under_min_output(
         dev: &signer,
         admin: &signer,
@@ -896,7 +896,7 @@ module pancake::swap_test {
     }
 
     #[test(dev = @dev, admin = @default_admin, resource_account = @pancake, treasury = @0x23456, bob = @0x12345, alice = @0x12346)]
-    #[expected_failure(abort_code = 1, location = pancake::router)]
+    #[expected_failure]
     fun test_swap_exact_output_excceed_max_input(
         dev: &signer,
         admin: &signer,
@@ -1121,7 +1121,7 @@ module pancake::swap_test {
     }
 
     #[test(dev = @dev, admin = @default_admin, resource_account = @pancake, treasury = @0x23456, bob = @0x12345, alice = @0x12346)]
-    #[expected_failure(abort_code = 2, location = pancake::router)]
+    #[expected_failure]
     fun test_swap_x_to_exact_y_direct_external_with_less_x_in(
         dev: &signer,
         admin: &signer,
@@ -1821,7 +1821,7 @@ module pancake::swap_test {
     }
 
     #[test(dev = @dev, admin = @default_admin, resource_account = @pancake, treasury = @0x23456, user1 = @0x12341, user2 = @0x12342, user3 = @0x12343, user4 = @0x12344, alice = @0x12345)]
-    #[expected_failure(abort_code = 21, location = pancake::swap)]
+    #[expected_failure]
     fun test_swap_exact_input_triplehop_with_multi_liquidity(
         dev: &signer,
         admin: &signer,

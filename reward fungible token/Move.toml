@@ -1,17 +1,25 @@
 [package]
-name = "fa_coin"
-version = "0.0.1"
+name = 'CandidateStaking'
+version = '0.0.1'
 
-# [dependencies]
-# AptosFramework = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-framework/", rev = "2a458b5ffaaf6a9de6fac679a53912c0be9fe217" }
-# AptosStdlib = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-stdlib/", rev = "2a458b5ffaaf6a9de6fac679a53912c0be9fe217" }
-
+[dependencies]
 [dependencies.AptosFramework]
 local = './aptos-core/aptos-move/framework/aptos-framework/'
 
 [dependencies.AptosStdlib]
 local = './aptos-core/aptos-move/framework/aptos-stdlib/'
 
+# PancakeOFT = { local = "../pancake-cake-oft" }
+
 [addresses]
-FACoin = "0xa880d00108f7bcf7f6ca0f525ebc216e01c6c27776170c11663dd794e0fbf449"
-swap_account = "0xa880d00108f7bcf7f6ca0f525ebc216e01c6c27776170c11663dd794e0fbf449"
+# masterchef resouce account(generated from origin account)
+# CandidateStaking = "fdb1161a02211b7f7385bc30dc3df9aae6243f680cce9d6e55c044578f14a04d"
+# origin account which create resource account
+# masterchef_origin = "485e427d4b1ac1fbfc0c3cd798ce9145da7d71b4f2be80a04c92ef3ee326096e"
+# msterchef_admin = "eef8788f3eaa34b936d0bc5897fc40fa3782b1e663bf04edf2cd22fcd18329ff"
+# masterchef_upkeep_operator = "485e427d4b1ac1fbfc0c3cd798ce9145da7d71b4f2be80a04c92ef3ee326096e"
+# MasterChefDeployer = "0x4db735a9d57f0ed393e44638540efc8e2ef2dccca3bd30c29bd09353b6285832"
+# AirdropDeployer = "0x28e49b130141ff36c361794be1451f0493264b49bae3e8eaac2bda034d0c5daf"
+
+CandidateStaking = "0x9db1d65a321e4a86f8098cb04e76fce098890b84211fa06d65f24dc644bf0fec"
+CoreResources = "0xA550C18"
