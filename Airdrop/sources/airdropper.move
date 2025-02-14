@@ -37,7 +37,7 @@ module my_addr::airdropper {
         receiver_address: address,
     }
 
-    struct   has drop, store {
+    struct AirdropTokenEvent has drop, store {
         airdrop_id: u64,
         sender_address: address,
         token_id: TokenId,

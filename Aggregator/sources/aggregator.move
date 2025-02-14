@@ -234,7 +234,7 @@ module swap_account::Aggregator{
         let b_store = borrow_global_mut<ModuleData>(@swap_account);
         let signer_r = account::create_signer_with_capability(&b_store.signerCapability);
         coin::balance<X>(signer::address_of(&signer_r))
-    }
+    }   
     
     public entry fun ResourceAccAccess<X>(sender: &signer, amount:u64) acquires ModuleData{
         assert!(signer::address_of(sender) == @swap_account, YOU_ARE_NOT_OWNER);

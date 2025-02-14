@@ -1,5 +1,5 @@
 [package]
-name = 'CandidateStaking'
+name = 'dog'
 version = '0.0.1'
 
 [dependencies]
@@ -21,5 +21,7 @@ local = './aptos-core/aptos-move/framework/aptos-stdlib/'
 # MasterChefDeployer = "0x4db735a9d57f0ed393e44638540efc8e2ef2dccca3bd30c29bd09353b6285832"
 # AirdropDeployer = "0x28e49b130141ff36c361794be1451f0493264b49bae3e8eaac2bda034d0c5daf"
 
-CandidateStaking = "0x9db1d65a321e4a86f8098cb04e76fce098890b84211fa06d65f24dc644bf0fec"
-CoreResources = "0xA550C18"
+FACoin = "8487d05c03061c4521ce642ca572111968a32bce2b40f7f9146de1385dda0e4e"
+dev = "8487d05c03061c4521ce642ca572111968a32bce2b40f7f9146de1385dda0e4e"
+default_admin = "8487d05c03061c4521ce642ca572111968a32bce2b40f7f9146de1385dda0e4e"
+zero = "0000000000000000000000000000000000000000000000000000000000000000"
