@@ -82,7 +82,7 @@ module mokshyastaking::tokenstaking
         dpr:dpr,
         state:true,
         amount:total_amount,
-        coin_type:coin_address<CoinType>(), 
+        coin_type:coin_address<CoinType>(), //checkForPhoton
         treasury_cap:staking_treasury_cap,
         });
     }
@@ -279,7 +279,7 @@ module mokshyastaking::tokenstaking
         reward_data.withdraw_amount=0;
     }
     /// A helper functions
-    fun coin_address<CoinType>(): address {
+    fun coin_address<CoinType>(): address {//checkForPhoton
         let type_info = type_info::type_of<CoinType>();
         type_info::account_address(&type_info)
     }
@@ -292,7 +292,7 @@ module mokshyastaking::tokenstaking
         let maps = borrow_global_mut<ResourceInfo>(account_addr);
         simple_map::add(&mut maps.resource_map, string,resource);
     }
-    fun get_resource_address(add1:address,string:String): address acquires ResourceInfo
+    fun get_resource_address(add1:address,string:String): address acquires ResourceInfo//checkForPhoton
     {
         assert!(exists<ResourceInfo>(add1), ENO_NO_STAKING);
         let maps = borrow_global<ResourceInfo>(add1);
@@ -300,7 +300,7 @@ module mokshyastaking::tokenstaking
         staking_address
 
     }
-    fun check_map(add1:address,string:String):bool acquires ResourceInfo
+    fun check_map(add1:address,string:String):bool acquires ResourceInfo //checkForPhoton
     {
         if (!exists<ResourceInfo>(add1)) {
             false 

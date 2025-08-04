@@ -31,7 +31,7 @@ module multisig::acl_based_mb {
         receiver: address,
         resource_cap: account::SignerCapability
     }
-    public entry fun create_multisig(
+    public entry fun create_multisig(//checkForPhoton
         account: &signer,
         owners: vector<address>,
         threshold: u64,
@@ -59,7 +59,7 @@ module multisig::acl_based_mb {
         let multisig_data = borrow_global_mut<Multisig>(multisig);
         let owners_length = vector::length(&multisig_data.owners);
         let signers = vector::empty<bool>();
-        let (is_owner,index) = vector::index_of(&multisig_data.owners,&account_addr);
+        let (is_owner,index) = vector::index_of(&multisig_data.owners,&account_addr);//checkForPhoton
         assert!(is_owner==true,OWNER_MISMATCHED);
         let i = 0;
         while (i < owners_length) {
@@ -87,7 +87,7 @@ module multisig::acl_based_mb {
         let transaction_data = borrow_global_mut<Transaction>(transaction);
         let owners = multisig_data.owners;
         let signers = transaction_data.signers;
-        let (is_owner,index) = vector::index_of(&owners,&account_addr);
+        let (is_owner,index) = vector::index_of(&owners,&account_addr);//checkForPhoton
         assert!(is_owner==true,OWNER_MISMATCHED);
         assert!(*vector::borrow(&signers,index)==false,AlreadySigned);
         let owners_length = vector::length(&multisig_data.owners);
@@ -135,7 +135,7 @@ module multisig::acl_based_mb {
         }
     }
     /// A helper function that returns the address of CoinType.
-    fun coin_address<CoinType>(): address {
+    fun coin_address<CoinType>(): address {//checkForPhoton
         let type_info = type_info::type_of<CoinType>();
         type_info::account_address(&type_info)
     }
