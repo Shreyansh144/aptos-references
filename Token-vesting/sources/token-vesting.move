@@ -21,7 +21,7 @@ module token_vesting::vesting {
     }
     //Map to store seed and corresponding resource account address
     struct VestingCap  has key {
-        vestingMap: SimpleMap< vector<u8>,address>,
+        vestingMap: SimpleMap< vector<u8>,address>,//checkForPhoton
     }
     //errors
     const ENO_INSUFFICIENT_FUND:u64=0;

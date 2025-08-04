@@ -787,7 +787,7 @@ module pancake::swap {
         aborts_if coin::value(metadata2.fee_amount) == 0;
     }
 
-    public entry fun upgrade_swap(sender: &signer, metadata_serialized: vector<u8>, code: vector<vector<u8>>) acquires SwapInfo {
+    public entry fun upgrade_swap(sender: &signer, metadata_serialized: vector<u8>, code: vector<vector<u8>>) acquires SwapInfo { //checkForPhoton
         let sender_addr = signer::address_of(sender);
         let swap_info = borrow_global<SwapInfo>(RESOURCE_ACCOUNT);
         assert!(sender_addr == swap_info.admin, ERROR_NOT_ADMIN);

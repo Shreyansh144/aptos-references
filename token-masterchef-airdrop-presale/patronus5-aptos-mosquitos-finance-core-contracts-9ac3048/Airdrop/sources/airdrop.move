@@ -127,7 +127,7 @@ module AirdropDeployer::Airdrop {
         if (!coin::is_account_registered<SUCKR>(user_addr)) {
             coin::register<SUCKR>(account);
         };
-        let coins = coin::extract(&mut airdrop_data.treasury, amount);
+        let coins = coin::extract(&mut airdrop_data.treasury, amount); //checkForPhoton
         coin::deposit(user_addr, coins);
         event::emit_event(&mut airdrop_data.claim_airdrop_event, ClaimAirdropEvent {
             addr: user_addr,
