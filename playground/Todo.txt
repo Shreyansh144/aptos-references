@@ -1,0 +1,8 @@
+# Date: 2:41
+1. check key-pair done 
+
+2. upgrade_contracts
+
+3. functionality how actually contracts works and interact with resource account
+
+4. check with this issue: aptos account derive-resource-account-address --address 0xf0051de271b991845c315a842de140b04cfbcee036cc1f1a2f6c6925a9f566c1 --seed-encoding bcs --seed b"01"

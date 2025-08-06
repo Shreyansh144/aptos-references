@@ -1,14 +1,10 @@
 [package]
-name = "simple_defi"
+name = "staking"
 version = "0.0.1"
 upgrade_policy = "compatible"
 
-[dependencies.AptosFramework]
-local = './aptos-framework/aptos-framework'
-
-[dependencies.AptosStdlib]
-local = './aptos-framework/aptos-stdlib/'
+[dependencies]
+AptosFramework = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-framework", rev = "mainnet" }
 
 [addresses]
-source_addr = "f0051de271b991845c315a842de140b04cfbcee036cc1f1a2f6c6925a9f566c1"
-resource_account = "0xadcedde0b917f0022cb23754ffc3d2eafd023b93415051cff7e77f2855e2367b"
+CandidateStaking = "f0051de271b991845c315a842de140b04cfbcee036cc1f1a2f6c6925a9f566c1"
