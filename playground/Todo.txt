@@ -5,4 +5,6 @@
 
 3. functionality how actually contracts works and interact with resource account
 
-4. check with this issue: aptos account derive-resource-account-address --address 0xf0051de271b991845c315a842de140b04cfbcee036cc1f1a2f6c6925a9f566c1 --seed-encoding bcs --seed b"01"
+4. check with this issue: aptos account derive-resource-account-address --address 0x225743b46742c2fd97dc84c2649a215263831a4665997eee989bf35c3cc3c4f2 --seed-encoding bcs --seed b"01"
+
+aptos move create-resource-account-and-publish-package --address-name 0x225743b46742c2fd97dc84c2649a215263831a4665997eee989bf35c3cc3c4f2 --seed 123

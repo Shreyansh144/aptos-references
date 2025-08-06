@@ -120,6 +120,16 @@ aptos account lookup-address
 # publish resource account on resource account from resource account address & make sure u should have balance in resource account:
 aptos move publish --sender-account 0x8f11
 
+# create and publish resource account, module will be publish in the resource account:
+aptos move create-resource-account-and-publish-package --address-name 0xf005 --seed test1232
+
+# created resource account from SM contains seed like- b"01", but in blockchain it arg shows- 0x01, seed-encoding should looks like --seed-encoding hex --seed 02:
+aptos account derive-resource-account-address --address 0xf0051de271b991845c315a842de140b04cfbcee036cc1f1a2f6c6925a9f566c1 --seed-encoding hex --seed 02
+
+{
+  "Result": "f68c1bf3d095bb7f86598390a69f5382e9468936666d737039fdc110e0e04658"
+}
+
 
 # Basic Commands
 
@@ -167,6 +177,10 @@ local = './aptos-framework/aptos-stdlib/'
 
 1. From publishing module to the resource account: [446600 - 600000] Octas at a gas unit price of 100 Octas
 
-2. Transfer funds to resource account: [1800 - 2700] Octas at a gas unit price of 100 Octas
+2. Transfer funds to resource account: [55100 - 82600] Octas at a gas unit price of 100 Octas
 
 3. Resource account creation: [51200 - 76800] Octas at a gas unit price of 100 Octas
+
+4. Fa_coin creation contract: [345500 - 518200] Octas at a gas unit price of 100 Octas
+
+5. create-resource-account-and-publish-package: [399400 - 599100] Octas at a gas unit price of 100 Octas

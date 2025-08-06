@@ -79,25 +79,12 @@ my_first_module = "default"
 
 ---
 
-
-<!-- module: module FACoin::fa_coin { -->
-
-<!-- toml file: [package]
+<!-- module: module FACoin::fa_coin {
+ toml file: [package]
 name = "fa_coin"
-version = "1.0.0"
-authors = []
-
 [addresses]
-FACoin = "2e1a6a26e98dcad6524f8c8d67c73f47859abfb8f393bc6cf6f26acc15264b58"
-
-[dev-addresses]
-
-[dependencies.AptosFramework]
-git = "https://github.com/aptos-labs/aptos-framework.git"
-rev = "mainnet"
-subdir = "aptos-framework"
-
-[dev-dependencies] -->
+FACoin = "0x123"
+-->
 
 # Resource Account Creation:
 aptos account create-resource-account --seed b123
@@ -123,11 +110,18 @@ aptos move publish --sender-account 0x8f11
 # create and publish resource account, module will be publish in the resource account:
 aptos move create-resource-account-and-publish-package --address-name 0xf005 --seed test1232
 
-# created resource account from SM contains seed like- b"01", but in blockchain it arg shows- 0x01, seed-encoding should looks like --seed-encoding hex --seed 02:
+# Case-1: created resource account from SM contains seed like- b"01", but in blockchain it arg shows- 0x01, seed-encoding should looks like --seed-encoding hex --seed 02:
 aptos account derive-resource-account-address --address 0xf0051de271b991845c315a842de140b04cfbcee036cc1f1a2f6c6925a9f566c1 --seed-encoding hex --seed 02
 
 {
   "Result": "f68c1bf3d095bb7f86598390a69f5382e9468936666d737039fdc110e0e04658"
+}
+
+# Case-2: aptos move create-resource-account-and-publish-package --address-name 0x225743b46742c2fd97dc84c2649a215263831a4665997eee989bf35c3cc3c4f2 --seed 123 after this: 
+aptos account derive-resource-account-address --address 0x225743b46742c2fd97dc84c2649a215263831a4665997eee989bf35c3cc3c4f2 --seed-encoding bcs --seed 123
+
+{
+  "Result": "d027c18765c05796fec5bb1c652e0465e82bd9d52e45bd80f36a7e8685b68471"
 }
 
 
