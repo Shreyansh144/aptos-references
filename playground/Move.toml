@@ -1,12 +1,14 @@
 [package]
 name = "simple_defi"
-version = "0.0.0"
+version = "0.0.1"
 upgrade_policy = "compatible"
 
-[dependencies]
-AptosFramework = { git = "https://github.com/aptos-labs/aptos-framework.git", subdir = "aptos-framework", rev = "mainnet" }
+[dependencies.AptosFramework]
+local = './aptos-framework/aptos-framework'
+
+[dependencies.AptosStdlib]
+local = './aptos-framework/aptos-stdlib/'
 
 [addresses]
-# change it to `source_addr = "_" when calling `create-resource-account-and-publish-package` from the cli
 source_addr = "f0051de271b991845c315a842de140b04cfbcee036cc1f1a2f6c6925a9f566c1"
-resource_account = "23bcbc826d9f527b288764e60c158c6f38846b066954afd4ef46599a0799b1af"
+resource_account = "0xadcedde0b917f0022cb23754ffc3d2eafd023b93415051cff7e77f2855e2367b"
