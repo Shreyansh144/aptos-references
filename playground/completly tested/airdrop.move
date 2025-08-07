@@ -1,9 +1,9 @@
-module AirdropDeployer::Airdrop {
-    use MasterChefDeployer::MosquitoCoin::{ Self, SUCKR };
+module MosquitoCoinDeployer::Airdrop2 {
+    use MosquitoCoinDeployer::MosquitoCoinTest1::{ Self, SUCKR };
     use std::signer;
     use std::event;
     use std::vector;
-    use std::simple_map::{ Self, SimpleMap };
+    use std::simple_map::{ Self, SimpleMap };//MosquitoCoinTest1
     use aptos_framework::timestamp;
     use aptos_framework::account;
     use aptos_framework::coin::{ Self, Coin };
@@ -23,7 +23,7 @@ module AirdropDeployer::Airdrop {
     /// When the value is less than certain value
     const ERR_MUST_BE_GREATER: u64 = 111;
 
-    const DEPLOYER_ADDRESS: address = @AirdropDeployer;
+    const DEPLOYER_ADDRESS: address = @MosquitoCoinDeployer;
 
     // struct SUCKR {}
 
@@ -145,6 +145,6 @@ module AirdropDeployer::Airdrop {
         let amount = (coin::value(&airdrop_data.treasury) as u64);
         let coins = coin::extract(&mut airdrop_data.treasury, amount);
         coin::deposit(signer::address_of(admin), coins);
-        MosquitoCoin::burn_SUCKR(admin, amount);
+        MosquitoCoinTest1::burn_SUCKR(admin, amount);
     }
 }

@@ -1,15 +1,10 @@
 [package]
-name = "swap_test"
-version = "0.0.1"
+name = "PhotonMock"
+version = "1.0.0"
 
 [dependencies]
 AptosFramework = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-framework", rev = "mainnet" }
 AptosStdlib = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-stdlib/", rev = "mainnet" }
 
 [addresses]
-pancake = "0xd027c18765c05796fec5bb1c652e0465e82bd9d52e45bd80f36a7e8685b68471"
-dev = "225743b46742c2fd97dc84c2649a215263831a4665997eee989bf35c3cc3c4f2"
-zero = "0000000000000000000000000000000000000000000000000000000000000000"
-default_admin = "225743b46742c2fd97dc84c2649a215263831a4665997eee989bf35c3cc3c4f2"
-test_coin = "0x16"
-swap_account = "225743b46742c2fd97dc84c2649a215263831a4665997eee989bf35c3cc3c4f2"
+PhotonDevAddress = "760637102c573ea852d0da8865872d62f04c2d8f145e4545a18a28f634698eeb"

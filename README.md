@@ -1,86 +1,36 @@
-Here’s a clean and concise `README.md` section you can include to document your Aptos Move workflow for compiling, testing, publishing, and running your Move module:
-
----
-
-## 🛠️ Aptos Move Project: Compile, Test, Publish, Run
-
-This guide walks through the full lifecycle of a basic Aptos Move module using the Aptos CLI.
-
----
-
 ### 📦 1. Initialize Aptos CLI
-
-Initialize the Aptos CLI (only once per environment):
-
-```bash
 aptos init
-```
 
-This sets up your local config (`~/.aptos/config.yaml`) and account information.
-
----
 
 ### 🔧 2. Compile the Move Module
-
-Use the following command to compile the Move package with a named address:
-
-```bash
 aptos move compile --named-addresses my_first_module=default
-```
 
 > Replace `default` with your Aptos account address (e.g., `0xabc...`) if needed.
 
----
-
 ### 🧪 3. Run Unit Tests
-
-Run the unit tests defined in the module:
-
-```bash
 aptos move test --named-addresses my_first_module=default
-```
 
----
 
 ### 🚀 4. Publish to Blockchain
-
-Publish your Move module to the Aptos blockchain:
-
-```bash
 aptos move publish --named-addresses my_first_module=default
-```
-
-> ⚠️ Ensure the publishing account has enough APT tokens for gas fees.
-
----
 
 ### ▶️ 5. Execute a Function
-
-Run a function from your published module. For example:
-
-```bash
 aptos move run --function-id 'default::message::set_message' --args 'string:Hello, Aptos!'
-```
-
-> `default::message::set_message` calls the `set_message` function in the `message.move` module.
-
----
 
 ### 📌 Notes
-
-* Named addresses are declared in your `Move.toml` like so:
 [addresses]
 my_first_module = "default"
 
 * Update `"default"` to your actual address (e.g., `"0x123..."`) once deployed.
 
-# Resource Account Creation:
+---
 
-* module: module FACoin::fa_coin
+<!-- module: module FACoin::fa_coin {
  toml file: [package]
 name = "fa_coin"
 [addresses]
 FACoin = "0x123"
+-->
 
 # Resource Account Creation:
 aptos account create-resource-account --seed b123

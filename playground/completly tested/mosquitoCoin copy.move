@@ -1,4 +1,4 @@
-module MosquitoCoinDeployer::MosquitoCoin {
+module MosquitoCoinDeployer::MosquitoCoinTest1 {
     use std::signer;
     use std::event;
     use std::vector;
@@ -68,7 +68,7 @@ module MosquitoCoinDeployer::MosquitoCoin {
         value: u64,
     }
 
-    public fun initialize(admin: &signer) {
+    public entry fun initialize(admin: &signer) {
         let admin_addr = signer::address_of(admin);
         let (burn_cap, freeze_cap, mint_cap) = coin::initialize<SUCKR>(
             admin,

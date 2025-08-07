@@ -1,0 +1,99 @@
+{
+  "info": {
+    "_postman_id": "e67c9f64-8085-42f3-bdb2-aptos-api-collection",
+    "name": "Aptos Token APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Mint Tokens",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"to\": \"0x760637102c573ea852d0da8865872d62f04c2d8f145e4545a18a28f634698eeb\",\n  \"amount\": \"63000\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/mint",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["mint"]
+        }
+      }
+    },
+    {
+      "name": "Claim Tokens",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": \"63000\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/claim",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["claim"]
+        }
+      }
+    },
+    {
+      "name": "Transfer Tokens",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"from\": \"0x760637102c573ea852d0da8865872d62f04c2d8f145e4545a18a28f634698eeb\",\n  \"to\": \"0x451d71f35df784da03ec6a45d619987be853a68df8adea29b43891595693fd5a\",\n  \"amount\": \"63000\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/transfer",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["transfer"]
+        }
+      }
+    },
+    {
+      "name": "Spend on Merchant",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"merchant\": \"0x451d71f35df784da03ec6a45d619987be853a68df8adea29b43891595693fd5a\",\n  \"amount\": \"63000\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/spend-on-merchant",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["spend-on-merchant"]
+        }
+      }
+    },
+    {
+      "name": "Spend on Protocol",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"protocol\": \"0x760637102c573ea852d0da8865872d62f04c2d8f145e4545a18a28f634698eeb\",\n  \"amount\": \"63000\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/spend-on-protocol",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["spend-on-protocol"]
+        }
+      }
+    }
+  ]
+}
