@@ -65,24 +65,6 @@ module PhotonDevAddress::PhotonMock{
         fungible_asset::deposit_with_ref(&managed_fungible_asset.transfer_ref, to_wallet, fa);
     }// <:!:mint_to
 
-    // public entry fun user_registeration(admin: &signer, to: address, amount: u64) acquires ManagedFungibleAsset {
-    //     let from = signer::address_of(admin);
-    //     let asset = get_metadata();
-    //     let transfer_ref = &authorized_borrow_refs(admin, asset).transfer_ref;
-    //     let from_wallet = primary_fungible_store::primary_store(from, asset);
-    //     let to_wallet = primary_fungible_store::ensure_primary_store_exists(to, asset);
-    //     fungible_asset::transfer_with_ref(transfer_ref, from_wallet, to_wallet, amount);
-    // }
-
-    // public entry fun bankToUser(admin: &signer, to: address, amount: u64) acquires ManagedFungibleAsset {
-    //     let from = signer::address_of(admin);
-    //     let asset = get_metadata();
-    //     let transfer_ref = &authorized_borrow_refs(admin, asset).transfer_ref;
-    //     let from_wallet = primary_fungible_store::primary_store(from, asset);
-    //     let to_wallet = primary_fungible_store::ensure_primary_store_exists(to, asset);
-    //     fungible_asset::transfer_with_ref(transfer_ref, from_wallet, to_wallet, amount);
-    // }
-
     public entry fun claim(user: &signer, amount: u64) acquires ManagedFungibleAsset {
         let user_addr = signer::address_of(user);
         let asset = get_metadata();
